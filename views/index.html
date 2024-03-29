@@ -23,20 +23,22 @@
       rel="stylesheet"
     /> -->
     <script src="../app.js" defer></script>
-    <script src="../scripts/questions.js"></script>
+    <!-- <script src="../scripts/questions.js"></script> -->
+    <script src="../scripts/fetch.js" defer></script>
+    <script src="../scripts/index.js" defer></script>
   </head>
   <body>
     <header>
       <div include-html-snippet="includes/navbar.html"></div>
     </header>
 
-    <div class="content">
+    <div class="content container mt-5">
       <div class="quiz">
         <div class="card">
           <div class="card-header">Video Game Quiz</div>
           <div class="card-body">
             <p class="card-text">Click below to start the quiz!</p>
-            <a href="quiz.html" class="btn btn-primary">Take Quiz</a>
+            <a href="#" id="take-quiz-btn" class="btn btn-primary">Take Quiz</a>
           </div>
         </div>
       </div>

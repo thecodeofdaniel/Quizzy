@@ -1,53 +1,51 @@
-function fetchQuestionsFromAPI(category, difficulty) {
+function fetchNewQuestions(category, difficulty) {
 
+  // parameters for API call
   const params = {
     amount: 10,
-    category: category, // 27=animals; for more info: https://opentdb.com/api_category.php
+    category: category,
     difficulty: difficulty,
     type: 'multiple'
   }
 
+  // Creating URL for API call
   const url = 'https://opentdb.com/api.php?' + new URLSearchParams(params);
 
   fetch(url)
     .then(response => response.json())
     .then(data => {
-      // THIS SECTION SETS LOCAL STORAGE
-      amount_of_questions = params.amount;
-      category = data.results[0].category;
-      current_question = 0;
-      score = 0;
+      // Grab the type (category) of questions
+      const category = data.results[0].category;
 
-      questions = data.results.map(item => ({
-        question: item['question'],
-        correct_answer: item['correct_answer'],
-        incorrect_answers: item.incorrect_answers
-      }));
+      // Grab specific data from the results
+      const triviaQuestions = data.results.map(item => {
+        // Combine correct and incorrect answers, and shuffle them
+        const answers = [...item['incorrect_answers'], item['correct_answer']];
+        for (let i = answers.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [answers[i], answers[j]] = [answers[j], answers[i]];
+        }
 
-      localStorage.setItem('triviaQuestions', JSON.stringify(questions));
+        return {
+          question: item['question'],
+          correct_answer: item['correct_answer'],
+          answers: answers
+        };
+    });
+
+      // Store data in local storage
+      localStorage.setItem('triviaQuestions', JSON.stringify(triviaQuestions));
       localStorage.setItem('category', category);
-      localStorage.setItem('amount_of_questions', amount_of_questions);
-      localStorage.setItem('current_question', 0);
-      localStorage.setItem('score', 0);
+      localStorage.setItem('amount_of_questions', params.amount);
+      localStorage.setItem('current_question_idx', 0);
     })
     .catch(error => {
       console.error('Error fetching questions:', error);
     });
 }
 
-function getStoredQuestions() {
-  const storedQuestions = localStorage.getItem('triviaQuestions');
-
-  if (!storedQuestions)
-    return null;
-  else
-    return JSON.parse(storedQuestions);
-}
-
-function printLocalStorageItems() {
-  for (let i = 0; i < localStorage.length; i++) {
-    const key = localStorage.key(i);
-    const value = localStorage.getItem(key);
-    console.log(`Key: ${key}, Value: ${value}`);
-  }
+// grabs a specific question with index as the parameter
+function getQuestionNum(val) {
+  const storedQuestion = JSON.parse(localStorage.getItem('triviaQuestions'))[val];
+  return storedQuestion;
 }

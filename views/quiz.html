@@ -23,6 +23,7 @@
       rel="stylesheet"
     /> -->
     <script src="../app.js" defer></script>
+    <script src="../scripts/fetch.js"></script>
     <script src="../scripts/quiz.js" defer></script>
   </head>
   <body>
@@ -33,10 +34,10 @@
     <form class="content container mt-5">
       <div class="quiz shadow">
         <div class="card">
-          <div class="card-header">Video Game Quiz</div>
+          <div id="card-header" class="card-header">Video Game Quiz</div>
           <div class="card-body">
-            <h3>1.</h3>
-            <p>What choice is the correct answer?</p>
+            <h3 id="question-number">1.</h3>
+            <p id="question-prompt">What choice is the correct answer?</p>
             <div class="form-check">
               <input
                 class="form-check-input"
@@ -86,8 +87,12 @@
       </div>
       <section id="question-card-btns">
         <div class="d-flex justify-content-between mt-3">
-          <button type="button" class="btn btn-primary">Prev</button>
-          <button type="button" class="btn btn-primary">Next</button>
+          <button id="prev-btn" type="button" class="btn btn-primary">
+            Prev
+          </button>
+          <button id="next-btn" type="button" class="btn btn-primary">
+            Next
+          </button>
         </div>
       </section>
     </form>

@@ -26,7 +26,7 @@ let currentQuesIdx = +localStorage.getItem('current_question_idx') || 0;
 function setQuestion() {
   const currentQuestion = getQuestionNum(currentQuesIdx);
   const isSubmitted = (localStorage.getItem('isSubmitted') === 'true');
-  document.getElementById('card-header').innerText = `${localStorage.getItem('category')} Quiz`;
+  document.getElementById('card-header').innerHTML = `${localStorage.getItem('category')} Quiz`;
   document.getElementById('question-number').innerText = `${currentQuesIdx + 1} of ${localStorage.getItem('amount_of_questions')}`;
   document.getElementById('question-prompt').innerHTML = currentQuestion.question;
 

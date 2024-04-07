@@ -31,18 +31,28 @@
       <div include-html-snippet="includes/navbar.html"></div>
     </header>
 
-    <div class="content container mt-5">
-      <div class="quiz">
-        <div class="card">
-          <div class="card-header">Video Game Quiz</div>
-          <div class="card-body">
-            <p class="card-text">Click below to start the quiz!</p>
-            <a href="./quiz.html" id="take-quiz-btn" class="btn btn-primary"
-              >Take Quiz</a
-            >
-          </div>
+    <div class="container mt-5">
+      <form>
+        <div class="mb-3">
+          <label for="category-select" class="fs-5 fw-medium">
+            Select Category
+          </label>
+          <select id="category-select" class="form-select"></select>
         </div>
-      </div>
+        <div class="mb-3">
+          <label for="difficulty-select" class="fs-5 fw-medium"
+            >Select Difficulty</label
+          >
+          <select id="difficulty-select" class="form-select">
+            <option value="easy" selected>Easy</option>
+            <option value="medium">Medium</option>
+            <option value="hard">Hard</option>
+          </select>
+        </div>
+      </form>
+      <a href="./quiz.html" id="take-quiz-btn" class="btn btn-primary"
+        >Take Quiz</a
+      >
     </div>
   </body>
 </html>

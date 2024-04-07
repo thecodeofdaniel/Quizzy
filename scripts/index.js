@@ -11,7 +11,8 @@ async function fetchCategories() {
   }
 }
 
-async function setCategories() {
+async function getCategories() {
+  // If categories data wasn't fetched already
   if (!localStorage.getItem("categories")) {
     try {
       await fetchCategories();
@@ -19,7 +20,8 @@ async function setCategories() {
       console.error("Error fetching categories:", error);
     }
   }
-
+  
+  // Create the options for selecting category
   const selectElement = document.getElementById("category-select");
   const categories = JSON.parse(localStorage.getItem("categories"));
   categories.forEach((category) => {
@@ -30,12 +32,21 @@ async function setCategories() {
   });
 }
 
-// Fetch new questions
-takeQuizBtn.addEventListener('click', async function(event) {
+// Fetch questions based on user selection
+document.getElementById('take-quiz-btn').addEventListener("click", async function (event) {
+  // Prevent redirection to new quiz.html page
   event.preventDefault();
-  fetchNewQuestions(27, 'easy');
-  // wait 1 second for the data to be set in localStorage
+
+  // Grab the selected category and difficulty
+  const category = document.getElementById("category-select").value;
+  const difficulty = document.getElementById("difficulty-select").value;
+
+  // Wait for data to be set in localStorage
+  fetchNewQuestions(category, difficulty);
   await new Promise(resolve => setTimeout(resolve, 1000));
-  // navigate to requested page
+
+  // Navigate to requested page
   window.location.href = event.target.href;
 });
+
+getCategories();

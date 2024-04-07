@@ -43,9 +43,3 @@ function fetchNewQuestions(category, difficulty) {
       console.error('Error fetching questions:', error);
     });
 }
-
-// grabs a specific question with index as the parameter
-function getQuestionNum(val) {
-  const storedQuestion = JSON.parse(localStorage.getItem('triviaQuestions'))[val];
-  return storedQuestion;
-}

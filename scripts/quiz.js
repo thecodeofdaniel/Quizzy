@@ -27,11 +27,11 @@ function setQuestion() {
   const currentQuestion = getQuestionNum(currentQuesIdx);
   document.getElementById('card-header').innerText = `${localStorage.getItem('category')} Quiz`;
   document.getElementById('question-number').innerText = `${currentQuesIdx + 1} of ${localStorage.getItem('amount_of_questions')}`;
-  document.getElementById('question-prompt').innerText = currentQuestion.question;
+  document.getElementById('question-prompt').innerHTML = currentQuestion.question;
 
   Array.from(document.getElementsByClassName('form-check-input')).forEach((radio, index) => {
     const label = document.querySelectorAll('.form-check-label')[index];
-    label.innerText = currentQuestion.answers[index];
+    label.innerHTML = currentQuestion.answers[index];
     radio.value = currentQuestion.answers[index];
     radio.checked = false;
     radio.disabled = false;

@@ -20,7 +20,7 @@ async function getCategories() {
       console.error("Error fetching categories:", error);
     }
   }
-  
+
   // Create the options for selecting category
   const selectElement = document.getElementById("category-select");
   const categories = JSON.parse(localStorage.getItem("categories"));
@@ -41,12 +41,20 @@ document.getElementById('take-quiz-btn').addEventListener("click", async functio
   const category = document.getElementById("category-select").value;
   const difficulty = document.getElementById("difficulty-select").value;
 
-  // Wait for data to be set in localStorage
-  fetchNewQuestions(category, difficulty);
-  await new Promise(resolve => setTimeout(resolve, 1000));
+  document.getElementById('spinner').classList.remove("d-none");
+  try {
+    // Call fetchNewQuestions to set data in localStorage
+    fetchNewQuestions(category, difficulty);
 
-  // Navigate to requested page
-  window.location.href = event.target.href;
+    // Wait for 2 secs until data is set
+    await new Promise(resolve => setTimeout(resolve, 2000));
+
+    // Navigate to the requested page
+    window.location.href = './quiz.html';
+
+  } catch (error) {
+    console.error('Error fetching questions', error);
+  }
 });
 
 getCategories();

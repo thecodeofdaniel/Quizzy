@@ -22,6 +22,25 @@
       href="https://fonts.googleapis.com/css2?family=Odibee+Sans&display=swap"
       rel="stylesheet"
     /> -->
+    <!-- <style>
+      .loader {
+        border: 16px solid #f3f3f3; /* Light grey */
+        border-top: 16px solid #3498db; /* Blue */
+        border-radius: 50%;
+        width: 120px;
+        height: 120px;
+        animation: spin 2s linear infinite;
+      }
+
+      @keyframes spin {
+        0% {
+          transform: rotate(0deg);
+        }
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+    </style> -->
     <script src="../app.js" defer></script>
     <script src="../scripts/fetch.js" defer></script>
     <script src="../scripts/index.js" defer></script>
@@ -51,7 +70,11 @@
         </div>
       </form>
       <a href="./quiz.html" id="take-quiz-btn" class="btn btn-primary"
-        >Take Quiz</a
+        ><span
+          id="spinner"
+          class="spinner-border spinner-border-sm d-none"
+        ></span
+        ><span role="status">Take Quiz</span></a
       >
     </div>
   </body>

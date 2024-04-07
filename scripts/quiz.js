@@ -1,49 +1,89 @@
-function disabledRadios(checkedRadio) {
-  var radios = document.getElementsByName(checkedRadio.name);
-  for (var i = 0; i < radios.length; i++) {
-    if (radios[i] !== checkedRadio) {
-      radios[i].disabled = checkedRadio.checked;
-    }
-  }
+function disableRadios(checkedRadio) {
+  saveAnswer(currentQuesIdx, checkedRadio.value);
 }
 
-// The index for which the user is currently on
-let currentQuesIdx = +localStorage.getItem('current_question_idx');
+function saveAnswer(questionIndex, answer) {
+  let answers = JSON.parse(localStorage.getItem('quiz_answers')) || {};
+  answers[questionIndex] = answer;
+  localStorage.setItem('quiz_answers', JSON.stringify(answers));
+}
 
-// Elements in quiz.html
-const cardHeaderElem = document.getElementById('card-header');
-const quesNum = document.getElementById('question-number');
-const quesPrompt = document.getElementById('question-prompt');
-const radioLabels = document.getElementsByClassName('form-check-label');
-const nextBtn = document.getElementById('next-btn');
-const prevBtn = document.getElementById('prev-btn');
+function calculateScore() {
+  const answers = JSON.parse(localStorage.getItem('quiz_answers')) || {};
+  const questions = JSON.parse(localStorage.getItem('triviaQuestions')) || [];
+  let score = 0;
+  questions.forEach((question, index) => {
+    if (answers[index] === question.correct_answer) {
+      score++;
+    }
+  });
+  const scoreDisplay = document.getElementById('score-display');
+  scoreDisplay.innerText = `Your final score is: ${score} out of ${questions.length}`;
+}
 
+let currentQuesIdx = +localStorage.getItem('current_question_idx') || 0;
 
 function setQuestion() {
-  cardHeaderElem.innerText = `${localStorage.getItem('category')} Quiz`;
-  quesNum.innerText = `${currentQuesIdx + 1} of ${localStorage.getItem('amount_of_questions')}`;
-  quesPrompt.innerHTML = `${getQuestionNum(currentQuesIdx).question}`;
-  for (let i = 0; i < radioLabels.length; i++) {
-    radioLabels[i].innerHTML = getQuestionNum(currentQuesIdx).answers[i];
+  const currentQuestion = getQuestionNum(currentQuesIdx);
+  document.getElementById('card-header').innerText = `${localStorage.getItem('category')} Quiz`;
+  document.getElementById('question-number').innerText = `${currentQuesIdx + 1} of ${localStorage.getItem('amount_of_questions')}`;
+  document.getElementById('question-prompt').innerText = currentQuestion.question;
+
+  Array.from(document.getElementsByClassName('form-check-input')).forEach((radio, index) => {
+    const label = document.querySelectorAll('.form-check-label')[index];
+    label.innerText = currentQuestion.answers[index];
+    radio.value = currentQuestion.answers[index];
+    radio.checked = false;
+    radio.disabled = false;
+  });
+
+  const savedAnswers = JSON.parse(localStorage.getItem('quiz_answers')) || {};
+  if (savedAnswers.hasOwnProperty(currentQuesIdx)) {
+    const savedAnswer = savedAnswers[currentQuesIdx];
+    Array.from(document.getElementsByClassName('form-check-input')).forEach(radio => {
+      radio.checked = (radio.value === savedAnswer);
+    });
+  }
+
+  updateNavigationButtons();
+}
+
+function getQuestionNum(index) {
+  const questions = JSON.parse(localStorage.getItem('triviaQuestions'));
+  return questions[index];
+}
+
+function updateNavigationButtons() {
+  const amountOfQuestions = parseInt(localStorage.getItem('amount_of_questions'));
+  const submitBtn = document.getElementById('submit-btn');
+  const nextBtn = document.getElementById('next-btn');
+  if (currentQuesIdx === amountOfQuestions - 1) {
+    submitBtn.classList.remove('d-none');
+    nextBtn.classList.add('d-none');
+  } else {
+    submitBtn.classList.add('d-none');
+    nextBtn.classList.remove('d-none');
   }
 }
 
-setQuestion();
-
-// When user clicks next button, increment current_question
-nextBtn.addEventListener('click', function() {
-  if (currentQuesIdx < 9) {
-    currentQuesIdx += 1
+document.getElementById('next-btn').addEventListener('click', function() {
+  if (currentQuesIdx < localStorage.getItem('amount_of_questions') - 1) {
+    currentQuesIdx++;
     localStorage.setItem('current_question_idx', currentQuesIdx);
     setQuestion();
   }
 });
 
-// When user clicks next button, decrement current_question
-prevBtn.addEventListener('click', function() {
+document.getElementById('prev-btn').addEventListener('click', function() {
   if (currentQuesIdx > 0) {
-    currentQuesIdx -= 1
+    currentQuesIdx--;
     localStorage.setItem('current_question_idx', currentQuesIdx);
     setQuestion();
   }
 });
+
+document.getElementById('submit-btn').addEventListener('click', function() {
+  calculateScore();
+});
+
+setQuestion();

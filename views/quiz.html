@@ -39,49 +39,22 @@
             <h3 id="question-number">1.</h3>
             <p id="question-prompt">What choice is the correct answer?</p>
             <div class="form-check">
-              <input
-                class="form-check-input"
-                type="radio"
-                name="option"
-                id="A Box"
-                value="option1"
-                onchange="disableRadios(this)"
-              />
+              <input class="form-check-input" type="radio" name="option" id="A Box" value="option1" onchange="disableRadios(this)" />
               <label class="form-check-label" for="A Box">A</label>
             </div>
             <div class="form-check">
-              <input
-                class="form-check-input"
-                type="radio"
-                name="option"
-                id="B Box"
-                value="option2"
-                onchange="disableRadios(this)"
-              />
+              <input class="form-check-input" type="radio" name="option" id="B Box" value="option2" onchange="disableRadios(this)" />
               <label class="form-check-label" for="B Box">B</label>
             </div>
             <div class="form-check">
-              <input
-                class="form-check-input"
-                type="radio"
-                name="option"
-                id="C Box"
-                value="option3"
-                onchange="disableRadios(this)"
-              />
+              <input class="form-check-input" type="radio" name="option" id="C Box" value="option3" onchange="disableRadios(this)" />
               <label class="form-check-label" for="C Box">C</label>
             </div>
             <div class="form-check">
-              <input
-                class="form-check-input"
-                type="radio"
-                name="option"
-                id="D Box"
-                value="option4"
-                onchange="disableRadios(this)"
-              />
+              <input class="form-check-input" type="radio" name="option" id="D Box" value="option4" onchange="disableRadios(this)" />
               <label class="form-check-label" for="D Box">D</label>
             </div>
+            <div id="score-display" class="mt-3"></div>
           </div>
         </div>
       </div>
@@ -89,6 +62,9 @@
         <div class="d-flex justify-content-between mt-3">
           <button id="prev-btn" type="button" class="btn btn-primary">
             Prev
+          </button>
+          <button id="submit-btn" type="button" class="btn btn-success d-none">
+            Submit
           </button>
           <button id="next-btn" type="button" class="btn btn-primary">
             Next

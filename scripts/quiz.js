@@ -25,6 +25,7 @@ let currentQuesIdx = +localStorage.getItem('current_question_idx') || 0;
 
 function setQuestion() {
   const currentQuestion = getQuestionNum(currentQuesIdx);
+  const isSubmitted = (localStorage.getItem('isSubmitted') === 'true');
   document.getElementById('card-header').innerText = `${localStorage.getItem('category')} Quiz`;
   document.getElementById('question-number').innerText = `${currentQuesIdx + 1} of ${localStorage.getItem('amount_of_questions')}`;
   document.getElementById('question-prompt').innerHTML = currentQuestion.question;
@@ -32,9 +33,14 @@ function setQuestion() {
   Array.from(document.getElementsByClassName('form-check-input')).forEach((radio, index) => {
     const label = document.querySelectorAll('.form-check-label')[index];
     label.innerHTML = currentQuestion.answers[index];
+    label.style.color = '';
+    if (isSubmitted && currentQuestion.answers[index] == currentQuestion.correct_answer)
+      label.style.color = 'green';
     radio.value = currentQuestion.answers[index];
     radio.checked = false;
     radio.disabled = false;
+    if (isSubmitted)
+      radio.disabled = true;
   });
 
   const savedAnswers = JSON.parse(localStorage.getItem('quiz_answers')) || {};
@@ -83,7 +89,9 @@ document.getElementById('prev-btn').addEventListener('click', function() {
 });
 
 document.getElementById('submit-btn').addEventListener('click', function() {
+  localStorage.setItem('isSubmitted', true);
   calculateScore();
+  setQuestion();
 });
 
 setQuestion();

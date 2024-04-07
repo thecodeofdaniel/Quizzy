@@ -38,6 +38,7 @@ function fetchNewQuestions(category, difficulty) {
       localStorage.setItem('category', category);
       localStorage.setItem('amount_of_questions', params.amount);
       localStorage.setItem('current_question_idx', 0);
+      localStorage.setItem('isSubmitted', false);
     })
     .catch(error => {
       console.error('Error fetching questions:', error);

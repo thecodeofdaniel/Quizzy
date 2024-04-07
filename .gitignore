@@ -1,5 +1,2 @@
 # Ignore node_modules dir
 node_modules
-
-# Ignore the json file containing the questions
-data/data.json

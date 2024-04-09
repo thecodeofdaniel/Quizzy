@@ -19,6 +19,9 @@ function calculateScore() {
   });
   const scoreDisplay = document.getElementById('score-display');
   scoreDisplay.innerText = `Your final score is: ${score} out of ${questions.length}`;
+
+  const takeAnotherQuizButton = document.getElementById("newquiz-btn");
+  takeAnotherQuizButton.classList.remove('d-none');
 }
 
 let currentQuesIdx = +localStorage.getItem('current_question_idx') || 0;
@@ -92,6 +95,10 @@ document.getElementById('submit-btn').addEventListener('click', function() {
   localStorage.setItem('isSubmitted', true);
   calculateScore();
   setQuestion();
+});
+
+document.getElementById('newquiz-btn').addEventListener('click', function () {
+  window.location.href = 'index.html';
 });
 
 setQuestion();

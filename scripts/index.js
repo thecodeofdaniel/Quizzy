@@ -25,10 +25,13 @@ async function getCategories() {
   const selectElement = document.getElementById("category-select");
   const categories = JSON.parse(localStorage.getItem("categories"));
   categories.forEach((category) => {
-    const option = document.createElement("option");
-    option.value = category.id;
-    option.textContent = category.name;
-    selectElement.appendChild(option);
+    // only include categories that work
+    if (category.id !== 13 && category.id !== 19 && category.id !== 24) {
+      const option = document.createElement("option");
+      option.value = category.id;
+      option.textContent = category.name;
+      selectElement.appendChild(option);
+    }
   });
 }
 
